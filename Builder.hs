@@ -33,6 +33,7 @@ buildOrInstall packagename =
     do infoM "" $ "Processing " ++ packagename
        installed <- getInstalledVer packagename
        avail <- getAvailableVer packagename
+       infoM "" $ show (installed, avail)
        case (installed, avail) of
          (Nothing, Nothing) -> fail $ 
                            packagename ++ " is not available in source form"
@@ -54,10 +55,13 @@ buildOrInstallRunner packagename version =
                   installcache packagename version
 
 hascache packagename version =
-    do rc <- rawSystem "test" ["-f", pkgVerToFilename packagename version]
+    do infoM "" $ "hascache: testing " ++ pkgVerToFilename packagename version
+       rc <- rawSystem "bash" ["-c", "test -f " ++  pkgVerToFilename packagename version]
        case rc of
-               ExitSuccess -> return True
-               ExitFailure _ -> return False
+               ExitSuccess -> do debugM "" "hascache returning True"
+                                 return True
+               ExitFailure _ -> do debugM "" "hascache returnung False"
+                                   return False
                
 build packagename =
     do infoM "" $ "Beginning build of " ++ packagename

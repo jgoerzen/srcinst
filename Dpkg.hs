@@ -24,16 +24,16 @@ import MissingH.Debian.ControlParser
 import MissingH.Maybe
 import MissingH.Logging.Logger
 import MissingH.Str
+import Text.Regex
 import Utils
 
 -- | Gets the installed version of a package, if any
 getInstalledVer :: String -> IO (Maybe String)
 getInstalledVer package = 
     do d <- readdata $ "dpkg -s " ++ package
-       --debugM "Dpkg" ("Got: " ++ show d)
        case d of 
               Nothing -> return Nothing
-              Just x -> return $ Just $ forceMaybe $ lookup "Version" (parseControl x)
+              Just x -> return $ lookup "Version" (parseControl x)
 
 -- | Gets the available version of a package, if any
 getAvailableVer :: String -> IO (Maybe String)
@@ -60,7 +60,9 @@ getBuildDeps package =
 
 pkgVerToFilename :: String -> String -> String
 pkgVerToFilename package version =
-    package ++ "_" ++ version ++ "_*.deb"
+    let newvers = subRe (mkRegex "^[0-9]+:") version ""
+        in
+        package ++ "_" ++ newvers ++ "_*.deb"
 
 -- | Gets the deps for a .deb, if any
 getDebDeps :: String -> String -> IO [String]
