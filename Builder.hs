@@ -25,6 +25,7 @@ import MissingH.Cmd
 import System.Cmd
 import System.Exit
 import Dpkg
+import Utils
 import Text.ParserCombinators.Parsec
 
 buildOrInstall :: String -> IO ()
@@ -79,32 +80,38 @@ procDebDeps packagename version =
        procDeps d
 
 procDeps deplist =
-    let procThisDep packagedep =
-            case forceEither $ parse depPart "(unknown)" packagedep of
-             (pkg, Nothing) -> buildOrInstall pkg
-             (pkg, Just (op, ver)) ->
-                do installed <- getInstalledVer pkg
-                   avail <- getAvailableVer pkg
-                   case (installed, avail) of
-                     (Nothing, Nothing) -> fail $ "No package for dependency " ++ packagedep ++ " is available"
-                     (Just i, Nothing) -> 
-                         do dv <- checkDebVersion i op ver
-                            if dv
-                               then return ()
-                               else fail $ "No package in sufficient version for dependency " ++ packagedep ++ " is available"
-                     (Nothing, Just x) -> 
-                         do dv <- checkDebVersion x op ver
-                            if dv
-                               then buildOrInstallRunner pkg x
-                               else fail $ "No package in sufficient source version for dependyncy " ++ packagedep
-                     (Just x, Just y) -> 
-                         do dv <- checkDebVersion x op ver
-                            if dv
-                               then return ()
-                               else do dv2 <- checkDebVersion y op ver
-                                       if dv2
-                                          then buildOrInstallRunner pkg  y
-                                          else fail $ "No package in sufficient source version for dep " ++ packagedep
+    let procThisDep packagedep = 
+            do myarch <- getArch
+               debugM "" $ "procThisDep: my arch is " ++ myarch
+               let (package, version, archlist) = forceEither $
+                                                   parse depPart "(unknown)" packagedep
+               if archlist /= [] && not (elem myarch archlist)
+                  then debugM "" $ "My arch is not in " ++ packagedep
+                  else case (package, version) of
+                           (pkg, Nothing) -> buildOrInstall pkg
+                           (pkg, Just (op, ver)) ->
+                               do installed <- getInstalledVer pkg
+                                  avail <- getAvailableVer pkg
+                                  case (installed, avail) of
+                                      (Nothing, Nothing) -> fail $ "No package for dependency " ++ packagedep ++ " is available"
+                                      (Just i, Nothing) -> 
+                                          do dv <- checkDebVersion i op ver
+                                             if dv
+                                                then return ()
+                                                else fail $ "No package in sufficient version for dependency " ++ packagedep ++ " is available"
+                                      (Nothing, Just x) -> 
+                                          do dv <- checkDebVersion x op ver
+                                             if dv
+                                                then buildOrInstallRunner pkg x
+                                                else fail $ "No package in sufficient source version for dependyncy " ++ packagedep
+                                      (Just x, Just y) -> 
+                                          do dv <- checkDebVersion x op ver
+                                             if dv
+                                                then return ()
+                                                else do dv2 <- checkDebVersion y op ver
+                                                        if dv2
+                                                           then buildOrInstallRunner pkg  y
+                                                           else fail $ "No package in sufficient source version for dep " ++ packagedep
     in
     mapM_ procThisDep deplist
 
