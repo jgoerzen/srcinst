@@ -34,7 +34,7 @@ configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
 	make setup
-	./setup configure --prefix=$(LIBPATH) --ghc
+	./setup configure --prefix=/usr --ghc
 
 	touch configure-stamp
 
@@ -45,6 +45,7 @@ build-stamp: configure-stamp
 
 	#make test-ghc6
 	# Add here commands to compile the package.
+	./setup build
 	touch build-stamp
 
 clean:
@@ -66,55 +67,11 @@ install: build
 	dh_installdirs -a 
 
 	# Add here commands to install the package into debian/tmp
-	dh_haskell -a
-	make test-ghc6
+	./setup copy --copy-prefix=debian/srcinst/usr
 
-builddocs: builddocs-stamp
-builddocs-stamp:
-	dh_testdir
-
-	make doc
-	#make test-hugs
-
-installdocs: builddocs
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	dh_installdirs -i
-
-	dh_haskell -i
-	make test-hugs
 
 # Build architecture-independent files here.
-binary-indep: builddocs installdocs
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs ChangeLog -i
-	dh_installdocs -i
-	dh_installexamples -i
-#	dh_install
-#	dh_installmenu
-#	dh_installdebconf	
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_installinit
-#	dh_installcron
-#	dh_installinfo
-	dh_installman -i
-	dh_link -i
-	dh_strip -i
-	dh_compress -i
-	dh_fixperms -i
-#	dh_perl
-#	dh_python
-#	dh_makeshlibs
-	dh_installdeb -i
-	dh_shlibdeps -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
+binary-indep: 
 
 # Build architecture-dependent files here.
 binary-arch: build install
