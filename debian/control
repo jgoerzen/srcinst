@@ -8,7 +8,7 @@ Section: utils
 Package: srcinst
 Section: utils
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, bash, build-essential, apt (>= 0.5)
+Depends: ${shlibs:Depends}, ${misc:Depends}, build-essential, apt (>= 0.5)
 Description: Build and install Debian packages completely from source
  srcinst is used to build and install Debian packages completely from source.
  All dependencies and build-dependencies are also built recursively from source.
