@@ -26,6 +26,7 @@ import MissingH.Str
 import System.IO.Error
 import System.IO
 import Text.ParserCombinators.Parsec
+import MissingH.Maybe
 
 readdata :: String -> IO (Maybe String)
 readdata command =
@@ -41,3 +42,7 @@ parseControl :: String -> [(String, String)]
 parseControl inp = map (\(f,s) -> (f, strip s)) $ 
                      forceEither $ parse control "(unknown)" inp
 
+
+getArch :: IO String
+getArch = do c <- readdata "dpkg --print-architecture"
+             return $ strip $ forceMaybe c

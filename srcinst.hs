@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 module Main where
 import System.Environment
+import System.Directory
 import System.Exit
 import Builder
 import Dpkg
@@ -28,17 +29,10 @@ syntaxError =
     do putStrLn "Syntax: srcinst install package1 [package2 ... packagen]"
        exitFailure
 
-main :: IO ()
-main = do updateGlobalLogger rootLoggerName (setLevel DEBUG)
+main = do args <- getArgs
+          setCurrentDirectory "/home/jgoerzen/tree/projects/srcinst/cache"
+          updateGlobalLogger rootLoggerName (setLevel DEBUG)
           updateGlobalLogger "MissingH.Cmd.pOpen3" (setLevel CRITICAL)
-          --updateGlobalLogger "Dpkg" (setLevel DEBUG)
-          getInstalledVer "dpkg" >>= print
-          getInstalledVer "foo" >>= print
-
-{-
-main2 = do args <- getArgs
           case args of
                "install":xs -> mapM_ buildOrInstall xs
                _ -> syntaxError
-
--}

@@ -17,10 +17,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 -}
 
 module Dpkg where
+-- Interface to Dpkg/Apt
+
 import MissingH.Cmd
 import MissingH.Debian.ControlParser
 import MissingH.Maybe
 import MissingH.Logging.Logger
+import MissingH.Str
 import Utils
 
 -- | Gets the installed version of a package, if any
@@ -31,3 +34,44 @@ getInstalledVer package =
        case d of 
               Nothing -> return Nothing
               Just x -> return $ Just $ forceMaybe $ lookup "Version" (parseControl x)
+
+-- | Gets the available version of a package, if any
+getAvailableVer :: String -> IO (Maybe String)
+getAvailableVer package =
+    do d <- readdata $ "apt-cache showsrc " ++ package
+       case d of
+              Nothing -> return Nothing
+              Just x -> return $ lookup "Version" (parseControl x)
+
+-- | Gets the build-deps of a package, if any
+getBuildDeps :: String -> IO [String]
+getBuildDeps package =
+    do d <- readdata $ "apt-cache showsrc " ++ package
+       case d of
+          Nothing -> return []
+          Just x -> let parsed = parseControl x
+                        splitted y = map strip . split "," $ y
+                        find y = case lookup y parsed of
+                                      Nothing -> []
+                                      Just z -> splitted z
+                        in
+                        return $ find "Build-Depends" ++
+                                 find "Build-Depends-Indep"
+
+pkgVerToFilename :: String -> String -> String
+pkgVerToFilename package version =
+    package ++ "_" ++ version ++ "_*.deb"
+
+-- | Gets the deps for a .deb, if any
+getDebDeps :: String -> String -> IO [String]
+getDebDeps package version =
+    do d <- readdata $ "dpkg -f " ++ (pkgVerToFilename package version)
+       case d of
+              Nothing -> return []
+              Just x -> let parsed = parseControl x
+                            splitted y = map strip . split "," $ y
+                            find y = case lookup y parsed of
+                                        Nothing -> []
+                                        Just z -> splitted z
+                            in
+                            return $ find "Depends"
