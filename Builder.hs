@@ -33,7 +33,7 @@ import Control.Monad
 buildOrInstall :: String -> IO ()
 
 buildOrInstall packagename = 
-    do infoM "" $ "Processing " ++ packagename
+    do infoM "" $ "buildOrInstall: Processing " ++ packagename
        installed <- getInstalledVer packagename
        avail <- getAvailableVer packagename
        infoM "" $ show (installed, avail)
@@ -47,11 +47,12 @@ buildOrInstall packagename =
                 if c /= LT
                    then infoM "" $ packagename ++ " " ++ inst ++
                                    " is already installed, and there is no newer version"
-                   else buildOrInstallRunner packagename inst
+                   else buildOrInstallRunner packagename avail
 
 -- Install from cache, or build
 buildOrInstallRunner packagename version =
-    do hc <- hascache packagename version
+    do debugM "" $ "buildOrInstallRunner: " ++ packagename ++ " " ++ version
+       hc <- hascache packagename version
        if hc
           then installcache packagename version
           else do build packagename
@@ -84,11 +85,17 @@ procDebDeps packagename version =
 procDeps deplist =
     -- Returns True if a package could be installed, or False otherwise.
     let procPkg :: (String, Maybe (String, String)) -> IO Bool
-        procPkg (pkg, Nothing) = do buildOrInstall pkg
-                                    return True
+        procPkg (pkg, Nothing) = do installed <- getInstalledVer pkg
+                                    case installed of
+                                      Nothing -> do buildOrInstall pkg
+                                                    return True
+                                      Just _ -> return True
         procPkg (pkg, Just (op, ver)) =
             do installed <- getInstalledVer pkg
                avail <- getAvailableVer pkg
+               debugM "" $ "procpkg: running " ++ pkg ++ " " ++
+                           show (op, ver) ++
+                           show (installed, avail)
                case (installed, avail) of
                   (Nothing, Nothing) -> do infoM "" $ "No package for dependency " ++ pkg ++ " is available"
                                            return False
@@ -108,8 +115,10 @@ procDeps deplist =
                   (Just x, Just y) -> 
                       do dv <- checkDebVersion x op ver
                          if dv
-                            then return True
-                            else do dv2 <- checkDebVersion y op ver
+                            then do debugM "" $ pkg ++ " installed OK already"
+                                    return True
+                            else do debugM "" $ pkg ++ " not installed OK already"
+                                    dv2 <- checkDebVersion y op ver
                                     if dv2
                                        then do buildOrInstallRunner pkg  y
                                                return True
