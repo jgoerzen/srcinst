@@ -54,21 +54,21 @@ buildOrInstallRunner packagename version =
                   installcache packagename version
 
 hascache packagename version =
-    do rc <- rawSystem("test", ["-f", pkgVerToFilename packagename version])
+    do rc <- rawSystem "test" ["-f", pkgVerToFilename packagename version]
        case rc of
                ExitSuccess -> return True
                ExitFailure _ -> return False
                
 build packagename =
     do infoM "" $ "Beginning build of " ++ packagename
-       d <- procBuildDeps packagename
-       safeSystem $ "apt-get" ["-b", "source", packagename]
+       procBuildDeps packagename
+       safeSystem "apt-get" ["-b", "source", packagename]
 
 installcache packagename version =
     do infoM "" $ "Scanning deps for " ++ packagename ++ " " ++ version
        procDebDeps packagename version
        infoM "" $ "Installing " ++ packagename ++ " " ++ version
-       safeSystem $ "bash" ["-c", "dpkg -i " ++ (pkgVerToFilename packagename version)]
+       safeSystem "bash" ["-c", "dpkg -i " ++ (pkgVerToFilename packagename version)]
 
 procDebDeps packagename version =
     do d <- getDebDeps packagename version
@@ -83,17 +83,24 @@ procDeps deplist =
                    avail <- getAvailableVer pkg
                    case (installed, avail) of
                      (Nothing, Nothing) -> fail $ "No package for dependency " ++ packagedep ++ " is available"
-                     (Just i, Nothing) -> if checkDebVersion i op ver
-                                              then return ()
-                                              else fail $ "No package in sufficient version for dependency " ++ packagedep ++ " is available"
-                     (Nothing, Just x) -> if checkDebVersion x op ver
-                                              then buildOrInstallRunner pkg x
-                                              else fail $ "No package in sufficient source version for dependyncy " ++ packagedep
-                     (Just x, Just y) -> if checkDebVersion x op ver
-                                             then return ()
-                                             else if checkDebVersion y op ver
-                                                      then buildOrInstallRunner pkg  y
-                                                      else fail $ "No package in sufficient source version for dep " ++ packagedep
+                     (Just i, Nothing) -> 
+                         do dv <- checkDebVersion i op ver
+                            if dv
+                               then return ()
+                               else fail $ "No package in sufficient version for dependency " ++ packagedep ++ " is available"
+                     (Nothing, Just x) -> 
+                         do dv <- checkDebVersion x op ver
+                            if dv
+                               then buildOrInstallRunner pkg x
+                               else fail $ "No package in sufficient source version for dependyncy " ++ packagedep
+                     (Just x, Just y) -> 
+                         do dv <- checkDebVersion x op ver
+                            if dv
+                               then return ()
+                               else do dv2 <- checkDebVersion y op ver
+                                       if dv2
+                                          then buildOrInstallRunner pkg  y
+                                          else fail $ "No package in sufficient source version for dep " ++ packagedep
     in
     mapM_ procThisDep deplist
 
