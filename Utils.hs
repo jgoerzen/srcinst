@@ -22,6 +22,7 @@ import MissingH.Debian.ControlParser
 import MissingH.Either
 import MissingH.Logging.Logger
 import MissingH.List
+import MissingH.Str
 import System.IO.Error
 import System.IO
 import Text.ParserCombinators.Parsec
@@ -37,5 +38,6 @@ readdata command args =
                         return Nothing)
 
 parseControl :: String -> [(String, String)]
-parseControl inp = forceEither $ parse control "(unknown)" inp
+parseControl inp = map (\(f,s) -> (f, strip s)) $ 
+                     forceEither $ parse control "(unknown)" inp
 
