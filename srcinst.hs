@@ -30,7 +30,8 @@ syntaxError =
 
 main :: IO ()
 main = do updateGlobalLogger rootLoggerName (setLevel DEBUG)
-          updateGlobalLogger "Dpkg" (setLevel DEBUG)
+          updateGlobalLogger "MissingH.Cmd.pOpen3" (setLevel CRITICAL)
+          --updateGlobalLogger "Dpkg" (setLevel DEBUG)
           getInstalledVer "dpkg" >>= print
           getInstalledVer "foo" >>= print
 

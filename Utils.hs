@@ -27,14 +27,14 @@ import System.IO.Error
 import System.IO
 import Text.ParserCombinators.Parsec
 
-readdata :: String -> [String] -> IO (Maybe String)
-readdata command args =
+readdata :: String -> IO (Maybe String)
+readdata command =
     let readcmd h = do c <- hGetContents h
                        return $! seqList c
         in
-        catch (pOpen ReadFromPipe command args readcmd >>= return . Just)
-              (\e -> do infoM "" ("readdata " ++ command ++ (show args) ++
-                                  ": " ++ show e)
+        catch (pOpen ReadFromPipe "bash" ["-c", command ++ " 2>/dev/null"] readcmd >>= return . Just)
+              (\e -> do debugM "Utils" ("readdata " ++ command ++
+                                                        ": " ++ show e)
                         return Nothing)
 
 parseControl :: String -> [(String, String)]

@@ -26,7 +26,7 @@ import Utils
 -- | Gets the installed version of a package, if any
 getInstalledVer :: String -> IO (Maybe String)
 getInstalledVer package = 
-    do d <- readdata "dpkg" ["-s", package]
+    do d <- readdata $ "dpkg -s " ++ package
        --debugM "Dpkg" ("Got: " ++ show d)
        case d of 
               Nothing -> return Nothing
