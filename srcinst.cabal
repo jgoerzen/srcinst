@@ -7,7 +7,7 @@ Stability: Alpha
 Copyright: Copyright (c) 2005 John Goerzen
 Extensions: ExistentialQuantification, AllowOverlappingInstances,
     AllowUndecidableInstances
-Build-Depends: haskell-src, network, unix, parsec, MissingH (>= 0.9.1)
+Build-Depends: haskell-src, network, unix, parsec, MissingH>=0.9.1
 GHC-Options: -O2
 
 Executable: srcinst

@@ -15,22 +15,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-SOURCES := $(wildcard MissingH/*.hs) \
-	$(wildcard MissingH/*/*.hs) \
-	$(wildcard MissingH/*/*/*.hs) 
-LHSSOURCES := $(wildcard MissingH/*/*.lhs) \
-	$(wildcard MissingH/*/*/*.lhs)
-O1 := $(SOURCES:.hs=.o) $(LHSSOURCES)
-OBJS := $(O1:.lhs=.o)
-LHSCONVSOURCES := $(patsubst %.lhs,doctmp/%.hs,$(LHSSOURCES))
-UNLIT ?= $(shell ghc --print-libdir)/unlit
-
 .PHONY: all
 all: setup
 	./setup configure
 	./setup build
 
-setup: Setup.lhs MissingH.cabal
+setup: Setup.lhs srcinst.cabal
 	ghc -package Cabal Setup.lhs -o setup
 
 doctmp/%.hs: %.lhs doctmp
