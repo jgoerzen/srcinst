@@ -30,7 +30,7 @@ syntaxError =
        exitFailure
 
 main = do args <- getArgs
-          setCurrentDirectory "/home/jgoerzen/tree/projects/srcinst/cache"
+          setCurrentDirectory "/var/cache/srcinst"
           updateGlobalLogger rootLoggerName (setLevel DEBUG)
           updateGlobalLogger "MissingH.Cmd.pOpen3" (setLevel CRITICAL)
           case args of
