@@ -1,0 +1,26 @@
+INSTALLATION INSTRUCTIONS
+
+First, install the Cabal distribution for your favorite compiler.
+Get it from http://www.haskell.org/cabal.  Debian users can
+apt-get install libghc6-cabal-dev.  Then run "make setup" (you may
+need to edit the Makefile if you don't use GHC or if your GHC is at an
+unusual location).
+
+Then:
+
+ ./setup configure
+ ./setup build
+ ./setup install
+ 
+Optionally, to run the unit tests, you'll need to install HUnit.  Then:
+
+ make test-ghc6
+
+or:
+
+ make test-hugs
+
+(More to come in this file)
+
+# arch-tag: Installation Instructions
+
