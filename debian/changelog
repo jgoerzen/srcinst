@@ -1,3 +1,10 @@
+srcinst (0.8.1) unstable; urgency=low
+
+  * Rebuilt with the latest GHC to work around gmp transition.
+  * Updated source for GHC 6.4 and its cabal.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri,  9 Sep 2005 09:11:37 -0500
+
 srcinst (0.8.0) unstable; urgency=low
 
   * Initial release.
