@@ -1,0 +1,41 @@
+<dilinger> CosmicRay: so, um, this srcinst thing you've created; am i
+understanding the docs correctly?  give it a random (source) tarball,
+and it will create a debian package?  does it create only binary
+package, or will it create source packages as well?
+<CosmicRay> not so much a tarball as a package name
+<CosmicRay> the purpose of srcinst is to build .debs
+<CosmicRay> the utility of it is that it follows both build-deps and
+deps during that process.
+<CosmicRay> building/installing necessary dependencies as it goes.
+<dilinger> so s/tarball/tree/?
+<CosmicRay> in theory, barring recursive dependencies, you should be
+able to build/install any package in debian using a single srcinst
+command having only a source mirror at your disposal.
+<CosmicRay> it just calls apt-get -b source to do the actual building
+of a source package
+<dilinger> ah
+<dilinger> i see
+<dilinger> so you begin w/ an already created debian package
+<CosmicRay> so if apt knows about your source mirror, srcinst will work.
+<CosmicRay> *source* package, yes.
+<dilinger> gotcha
+<CosmicRay> I wanted to prove that it's possible to do gentoo-like
+builds from source in Debian
+<CosmicRay> and, in most cases, it is.
+<dilinger> CosmicRay: but can you add your superoptimized
+-funroll-loops -O9 crack? ;)
+<CosmicRay> by setting proper environment variables first, sure ;-)
+<braindmg> dilinger: you just need a gcc wrapper ;P
+<CosmicRay> I actually mentioned this on the list awhile back, let me
+see if I can dig it up
+<CosmicRay> http://lists.debian.org/debian-devel/2005/03/msg01387.html
+<CosmicRay> http://lists.debian.org/debian-devel/2005/03/msg01406.html
+<CosmicRay> I only now got around to uploading it.
+<CosmicRay> dilinger: so anyway, the bottom line is that srcinst does
+roughly the same thing as "make install" does in a BSD distro: build
+all dependencies from source recursively, then build the package from
+source
+<dilinger> CosmicRay: ok
+<dilinger> CosmicRay: i recommend you stick that irc scrollback in a README ;)
+<CosmicRay> dilinger: wise, I think I'll do just that.
+<dilinger> irc, the easy way to write documentation

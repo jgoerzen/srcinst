@@ -1,3 +1,9 @@
+srcinst (0.8.2) unstable; urgency=low
+
+  * Added a README.Debian with a little bit of explanation.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed, 14 Sep 2005 06:08:27 -0500
+
 srcinst (0.8.1) unstable; urgency=low
 
   * Rebuilt with the latest GHC to work around gmp transition.
