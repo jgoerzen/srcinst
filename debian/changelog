@@ -1,3 +1,10 @@
+srcinst (0.8.3) unstable; urgency=low
+
+  * Clear out spaces in build-depends before processing.
+    Closes: #328246.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri, 16 Sep 2005 06:48:42 -0500
+
 srcinst (0.8.2) unstable; urgency=low
 
   * Added a README.Debian with a little bit of explanation.
