@@ -72,7 +72,8 @@ getDebDeps package version =
        case d of
               Nothing -> return []
               Just x -> let parsed = parseControl x
-                            splitted y = map strip . split "," $ y
+                            splitted y = map strip . split "," . 
+                                         filter (/= ' ')$ y
                             find y = case lookup y parsed of
                                         Nothing -> []
                                         Just z -> splitted z
