@@ -1,10 +1,10 @@
 -- arch-tag: Source installer main description file
 Name: srcinst
-Version: 0.8.0
+Version: 0.8.4
 License: GPL
 Maintainer: John Goerzen <jgoerzen@complete.org>
 Stability: Alpha
-Copyright: Copyright (c) 2005 John Goerzen
+Copyright: Copyright (c) 2005-2006 John Goerzen
 Build-Depends: haskell-src, network, unix, parsec, MissingH>=0.9.2
 
 Executable: srcinst

@@ -1,3 +1,9 @@
+srcinst (0.8.4) unstable; urgency=low
+
+  * Now works with removed packages.  Closes: #366457.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue,  9 May 2006 08:42:45 -0500
+
 srcinst (0.8.3) unstable; urgency=low
 
   * Clear out spaces in build-depends before processing.
