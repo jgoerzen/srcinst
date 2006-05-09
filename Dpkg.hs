@@ -33,7 +33,10 @@ getInstalledVer package =
     do d <- readdata $ "dpkg -s " ++ package
        case d of 
               Nothing -> return Nothing
-              Just x -> return $ lookup "Version" (parseControl x)
+              Just x -> return $
+                        if endswith "installed" $ forceMaybe $ lookup "Status" (parseControl x)
+                           then lookup "Version" (parseControl x)
+                           else Nothing
 
 -- | Gets the available version of a package, if any
 getAvailableVer :: String -> IO (Maybe String)
