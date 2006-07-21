@@ -1,7 +1,7 @@
 Source: srcinst
 Priority: optional
 Maintainer: John Goerzen <jgoerzen@complete.org>
-Build-Depends: debhelper (>= 4.0.0), ghc6 (>= 6.4-4.1), libghc6-missingh-dev (>= 0.9.2)
+Build-Depends: debhelper (>= 4.0.0), ghc6 (>= 6.4.2), libghc6-missingh-dev (>= 0.9.2)
 Standards-Version: 3.6.1
 Section: utils
 
