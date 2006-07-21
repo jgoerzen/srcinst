@@ -68,7 +68,7 @@ install: build
 
 	# Add here commands to install the package into debian/tmp
 	#./setup copy --copy-prefix=debian/srcinst/usr
-	cp dist/build/srcinst debian/srcinst/usr/bin/
+	cp dist/build/srcinst/srcinst debian/srcinst/usr/bin/
 
 
 # Build architecture-independent files here.
