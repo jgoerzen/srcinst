@@ -22,7 +22,7 @@ import System.Directory
 import System.Exit
 import Builder
 import Dpkg
-import MissingH.Logging.Logger
+import System.Logging.Logger
 
 syntaxError :: IO ()
 syntaxError =
@@ -32,7 +32,7 @@ syntaxError =
 main = do args <- getArgs
           setCurrentDirectory "/var/cache/srcinst"
           updateGlobalLogger rootLoggerName (setLevel DEBUG)
-          updateGlobalLogger "MissingH.Cmd.pOpen3" (setLevel CRITICAL)
+          updateGlobalLogger "System.Cmd.Utils.pOpen3" (setLevel CRITICAL)
           case args of
                "install":xs -> mapM_ buildOrInstall xs
                _ -> syntaxError

@@ -17,17 +17,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 -}
 
 module Builder where
-import MissingH.Logging.Logger
-import MissingH.Debian
-import MissingH.Debian.ControlParser
-import MissingH.Either
-import MissingH.Cmd
+import System.Log.Logger
+import System.Debian
+import System.Debian.ControlParser
+import Data.Either.Utils
+import System.Cmd.Utils
 import System.Cmd
 import System.Exit
 import Dpkg
 import Utils
 import Text.ParserCombinators.Parsec
-import MissingH.Str
+import Data.String
 import Control.Monad
 
 buildOrInstall :: String -> IO ()

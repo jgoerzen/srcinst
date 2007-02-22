@@ -17,16 +17,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 -}
 
 module Utils where
-import MissingH.Cmd
-import MissingH.Debian.ControlParser
-import MissingH.Either
-import MissingH.Logging.Logger
-import MissingH.List
-import MissingH.Str
+import System.Cmd.Utils
+import System.Debian.ControlParser
+import System.Either.Utils
+import System.Logging.Logger
+import Data.List.Utils
+import Data.String
 import System.IO.Error
 import System.IO
 import Text.ParserCombinators.Parsec
-import MissingH.Maybe
+import Data.Maybe.Utils
 
 readdata :: String -> IO (Maybe String)
 readdata command =

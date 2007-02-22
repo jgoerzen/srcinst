@@ -19,11 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 module Dpkg where
 -- Interface to Dpkg/Apt
 
-import MissingH.Cmd
-import MissingH.Debian.ControlParser
-import MissingH.Maybe
-import MissingH.Logging.Logger
-import MissingH.Str
+import System.Cmd.Utils
+import System.Debian.ControlParser
+import Data.Maybe.Utils
+import System.Logging.Logger
+import Data.String
 import Text.Regex
 import Utils
 
