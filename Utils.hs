@@ -19,8 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 module Utils where
 import System.Cmd.Utils
 import System.Debian.ControlParser
-import System.Either.Utils
-import System.Logging.Logger
+import Data.Either.Utils
+import System.Log.Logger
 import Data.List.Utils
 import Data.String
 import System.IO.Error

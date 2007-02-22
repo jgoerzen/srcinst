@@ -22,7 +22,7 @@ module Dpkg where
 import System.Cmd.Utils
 import System.Debian.ControlParser
 import Data.Maybe.Utils
-import System.Logging.Logger
+import System.Log.Logger
 import Data.String
 import Text.Regex
 import Utils
@@ -64,7 +64,7 @@ getBuildDeps package =
 
 pkgVerToFilename :: String -> String -> String
 pkgVerToFilename package version =
-    let newvers = subRe (mkRegex "^[0-9]+:") version ""
+    let newvers = subRegex (mkRegex "^[0-9]+:") version ""
         in
         package ++ "_" ++ newvers ++ "_*.deb"
 

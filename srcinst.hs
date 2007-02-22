@@ -22,7 +22,7 @@ import System.Directory
 import System.Exit
 import Builder
 import Dpkg
-import System.Logging.Logger
+import System.Log.Logger
 
 syntaxError :: IO ()
 syntaxError =
