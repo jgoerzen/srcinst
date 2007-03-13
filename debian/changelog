@@ -1,3 +1,15 @@
+srcinst (0.8.8) testing-proposed-updates; urgency=low
+
+  * Re-upload to testing-proposed-updates for etch.  Closes: #414674.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 13 Mar 2007 07:10:20 -0500
+
+srcinst (0.8.7) unstable; urgency=low
+
+  * Updated for newer MissingH.  Closes: #409687.
+
+ -- John Goerzen <jgoerzen@complete.org>  Thu, 22 Feb 2007 05:12:48 -0600
+
 srcinst (0.8.6) unstable; urgency=low
 
   * Updated for GHC 6.6
