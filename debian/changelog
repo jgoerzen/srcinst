@@ -1,9 +1,3 @@
-srcinst (0.8.7) unstable; urgency=low
-
-  * Updated for newer MissingH.  Closes: #409687.
-
- -- John Goerzen <jgoerzen@complete.org>  Thu, 22 Feb 2007 05:12:48 -0600
-
 srcinst (0.8.6) unstable; urgency=low
 
   * Updated for GHC 6.6
