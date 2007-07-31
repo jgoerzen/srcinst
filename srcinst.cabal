@@ -1,6 +1,6 @@
 -- arch-tag: Source installer main description file
 Name: srcinst
-Version: 0.8.7
+Version: 0.8.9
 License: GPL
 license-file: COPYRIGHT
 extra-source-files: COPYING

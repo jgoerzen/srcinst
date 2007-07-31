@@ -1,3 +1,9 @@
+srcinst (0.8.9) unstable; urgency=medium
+
+  * Re-upload for sid.  Closes: #409687.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 31 Jul 2007 05:38:05 -0500
+
 srcinst (0.8.8) testing-proposed-updates; urgency=low
 
   * Re-upload to testing-proposed-updates for etch.  Closes: #414674.
