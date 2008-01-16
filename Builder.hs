@@ -27,7 +27,7 @@ import System.Exit
 import Dpkg
 import Utils
 import Text.ParserCombinators.Parsec
-import Data.String
+import Data.String.Utils
 import Control.Monad
 
 buildOrInstall :: String -> IO ()

@@ -23,7 +23,7 @@ import System.Cmd.Utils
 import System.Debian.ControlParser
 import Data.Maybe.Utils
 import System.Log.Logger
-import Data.String
+import Data.String.Utils
 import Text.Regex
 import Utils
 

@@ -1,5 +1,5 @@
 {- arch-tag: srcinst utils
-Copyright (C) 2004 John Goerzen <jgoerzen@complete.org>
+Copyright (C) 2004-2008 John Goerzen <jgoerzen@complete.org>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ import System.Debian.ControlParser
 import Data.Either.Utils
 import System.Log.Logger
 import Data.List.Utils
-import Data.String
+import Data.String.Utils
 import System.IO.Error
 import System.IO
 import Text.ParserCombinators.Parsec
